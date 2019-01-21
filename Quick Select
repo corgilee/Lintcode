@@ -1,0 +1,41 @@
+https://www.lintcode.com/problem/kth-smallest-numbers-in-unsorted-array/description?_from=ladder&&fromId=1
+
+
+
+class Solution:
+    """
+    @param: k: An integer
+    @param: nums: An integer array
+    @return: kth smallest element
+    """
+    def kthSmallest(self, k, nums):
+        # python starts from 0 -> k - 1
+        return self.quick_select(0, len(nums) - 1, nums, k - 1)
+        
+    def quick_select(self, start, end, nums, k) :
+        # base case
+        if start == end :
+            return nums[start]
+            
+        left, right = start, end
+        pivot = nums[(start + end) // 2]
+        # quick sort template
+        while left <= right :
+            while left <= right and nums[left] < pivot :
+                left += 1
+            while left <= right and nums[right] > pivot :
+                right -= 1
+                
+            if left <= right :
+                nums[left], nums[right] = nums[right], nums[left]
+                # start, right, left, end
+                left += 1
+                right -= 1
+        # 1. left part has k -> start, right
+        # 2. right part has k -> left, end
+        if start <= right and right >= k :
+            self.quick_select(start, right, nums, k)
+        if left <= end and left <= k :
+            self.quick_select(left, end, nums, k)
+            
+        return nums[k]
