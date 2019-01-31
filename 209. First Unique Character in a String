@@ -1,0 +1,77 @@
+########################################################################
+两种做法
+
+1. 两次循环 (easy)
+
+2. 加一个限制：只能用一次循环 
+做法：  hashmap+linkednode （参见 134，LRU cache 和答案）
+在hashmap 里面 添加 linkednode
+
+
+initialize 一个 LinkedNode, mapping, dupset
+
+在mapping里面
+node的key 指向 linkedlist前面一个node
+
+
+如果 c 不在 self.mapping 里面：
+node= LinkedNode(key=c)
+先把  self.mapping[c] 指向 self.tail
+然后 self.tail.next 连上 node
+再把 self.tail 变成 node
+
+由此， self.mapping(c) 就指向了 这个 node 的前一个节点
+####################################################################################
+
+
+class LinkedNode:
+   def __init__(self,key=None,next=None):
+      self.key=key
+      self.next=next
+
+
+
+class Solution:
+    """
+    @param str: str: the given string
+    @return: char: the first unique character in a given string
+    """
+    def __init__(self):
+       self.head=LinkedNode()
+       self.tail=self.head
+       self.mapping={}
+       self.dupset=set()
+    
+    def add(self,c):
+       if c in self.dupset:
+          return
+       
+       if c not in self.mapping:
+          node=LinkedNode(key=c)
+          self.mapping[c]=self.tail 
+          self.tail.next=node
+          self.tail=node
+          return #return
+       
+       # c already in mapping
+       prev=self.mapping[c]
+       prev.next=prev.next.next
+       
+       # if c is already the tail
+       if prev.next is None:
+          self.tail=prev
+          
+       else:
+          self.mapping[prev.next.key]=prev
+       
+       del self.mapping[c]
+       
+       self.dupset.add(c)
+          
+    
+    def firstUniqChar(self, str):
+        # Write your code here
+        for c in str:
+           self.add(c)
+
+        return self.head.next.key
