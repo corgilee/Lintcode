@@ -2,3 +2,4 @@ binary search
 5. Kth Largest Element (quick select)
 bfs 基本模板  while queue:.....
 Hashmap + LinkedNode
+同向双指针模板 
