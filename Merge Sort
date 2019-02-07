@@ -13,7 +13,7 @@ def merge_sort_helper(array, left, right):
     mid = (left + right) // 2
     merge_sort_helper(array, left, mid)
     merge_sort_helper(array, mid + 1, right)
-    merge(array, left, right)
+    merge(array, left, right) # Here, left and right is position index
 
 
 def merge(array, left, right):
