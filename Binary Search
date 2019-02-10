@@ -1,0 +1,12 @@
+    def binary_search(self, A, start, end, target):
+        while start + 1 < end:
+            mid = (start + end) // 2
+            if A[mid] < target:
+                start = mid
+            else:
+                end = mid
+        if A[start] == target:
+            return start
+        if A[end] == target:
+            return end
+        return -1
