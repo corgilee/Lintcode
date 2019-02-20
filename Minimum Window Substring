@@ -1,0 +1,52 @@
+和强化班讲的基本一致，也和精解一样，只是加了注释更容易理解。
+基本控制的是三个：
+
+一个是hash key长度是否一样
+然后是每个key出现的次数
+最后是最小长度
+很需要注意的是，哪个先加，哪个先减的顺序至关重要，写错了好几次。
+
+class Solution:
+    """
+    @param source : A string
+    @param target: A string
+    @return: A string denote the minimum window, return "" if there is no such a string
+    """
+    def minWindow(self, source, target):
+        matchStr = ''
+        # corner case
+        if source is None :
+            return matchStr
+        # init
+        targetHash, newHash = self.newhash(target), {}
+        targetLen, matchLen = len(targetHash), 0
+        # denote l, r - left, right
+        left, right = 0, 0
+        n, miniLen = len(source), len(source) + 1
+        
+        for left in range(n) :
+            # right move to find the string
+            while right < n and matchLen < targetLen :
+                char = source[right]
+                if char in targetHash:
+                    newHash[char] = newHash.get(char, 0) + 1
+                    if targetHash[char] == newHash[char] :
+                        matchLen += 1
+                right += 1
+            # if find, confirm min
+            if right - left < miniLen and matchLen == targetLen :
+                miniLen = right - left
+                matchStr = source[left:right]
+            # move left pointer and del related info
+            char = source[left]
+            if char in targetHash :
+                if targetHash[char] == newHash[char] :
+                    matchLen -= 1
+                newHash[char] -= 1
+        return matchStr
+    
+    def newhash(self, target) :
+        hashset = {}
+        for char in target :
+            hashset[char] = hashset.get(char, 0) + 1
+        return hashset
