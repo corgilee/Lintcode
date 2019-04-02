@@ -1,3 +1,8 @@
+####
+Complexity: O(Nlog(k))
+####
+
+
 class Solution:
     """
     @param arrays: k sorted integer arrays
