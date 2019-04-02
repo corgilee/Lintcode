@@ -1,0 +1,25 @@
+ #可以用堆做到 O(N log k) 的时间复杂度.   
+    
+    
+    
+    def mergekSortedArrays(self, arrays):
+        # write your code 
+        heap=[]
+        res=[]
+        
+        #初始将所有数组的首个元素入堆, 并记录入堆的元素是属于哪个数组的.
+        for index,array in enumerate(arrays):
+            if len(array)==0:
+                continue
+            heapq.heappush(heap,(array[0],index,0))
+  
+  
+  #每次取出堆顶元素, 并放入该元素所在数组的下一个元素.          
+        while len(heap)>0:
+            num,index,num_idx=heap[0]
+            heapq.heappop(heap)
+            res.append(num)
+            if num_idx<=len(arrays[index])-2:
+                heapq.heappush(heap,(arrays[index][num_idx+1],index,num_idx+1))
+        
+        return res
