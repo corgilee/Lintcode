@@ -1,5 +1,9 @@
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+
+
 和强化班讲的基本一致，也和精解一样，只是加了注释更容易理解。
 基本控制的是三个：
+
 
 一个是hash key长度是否一样
 然后是每个key出现的次数
