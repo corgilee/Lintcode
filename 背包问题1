@@ -1,0 +1,58 @@
+#### Q1 ################################
+Given n items with size Ai, an integer m denotes the size of a backpack. How full you can fill this backpack?
+
+Example 1:
+	Input:  [3,4,8,5], backpack size=10
+	Output:  9
+
+Example 2:
+	Input:  [2,3,5,7], backpack size=12
+	Output:  12
+
+##########################################
+m 表示 size of the backpack
+n=len(A)
+
+dp[n][m] 
+dp[n][m]表示前 n 个物品选一些物品放入容量为 m 的背包中能否放满
+
+(n+1)*(m+1) 矩阵， 刚开始都填 false, 然后初始条件是 dp[0][j] 都是 true, 因为 如果 m是 0， 肯定填的满
+
+1. 先把 dp填满
+
+2. for j in range(m,-1,-1):
+       if dp[n][m]:
+			 return m
+
+##########################################
+
+class Solution:
+    """
+    @param m: An integer m denotes the size of a backpack
+    @param A: Given n items with size A[i]
+    @return: The maximum size
+    """
+    def backPack(self, m, A):
+        # write your code here
+        
+        n=len(A)
+        
+        dp=[[False]*(m+1) for _ in range(n+1)]
+        
+        #initialize 
+        # fill the first line
+        for i in range(n+1):
+            dp[i][0]=True
+            
+        for i in range(1,n+1):
+            for j in range(1, m+1):
+                if A[i-1]<=j:
+                    dp[i][j]= dp[i-1][j] or dp[i-1][j-A[i-1]]
+                else:
+                    dp[i][j]=dp[i-1][j]
+                    
+                    
+        for j in range(m,-1,-1):
+            if dp[n][j]:
+                return j
+        return 0
