@@ -1,0 +1,48 @@
+
+####################  Q3 #################################
+Given n kind of items with size Ai and value Vi( each item has an infinite number available) and a backpack with size m. What's the maximum value can you put into the backpack?
+
+You cannot divide item into small pieces and the total size of items you choose should smaller or equal to m.
+Example
+
+Given 4 items with size [2, 3, 5, 7] and value [1, 5, 2, 4], and a backpack with size 10. The maximum value is 15
+
+###########################################################
+
+和题2 非常接近
+
+In II, we only have 1 of each item; In III, we can have infinite number of each item. So after we pick the ith item, 
+
+we should still consider picking the same ith item again as long as the remaining weight is >= A[i - 1]. In II, once
+
+we picked the ith item, we should only consider the max value of the first (i - 1) items with the remaining weight
+
+j - A[i - 1].
+###########################################################
+
+class Solution:
+
+    def backPack_iii(self, m, A):
+        # write your code here
+        
+        n=len(A)
+        
+        dp=[[]*(m+1) for _ in range(n+1)]
+        
+        #initialize 
+        # fill the first col and rol
+        for i in range(n+1):
+            dp[i][0]=0
+        
+        for j in range(m+1):
+            dp[0][j]=0
+ 
+ 
+        for i in range(1,n+1):
+            for j in range(1, m+1):
+                if A[i-1]<=j:
+                    dp[i][j]= max(dp[i-1][j], dp[i][j-A[i-1]]+V[i-1])
+                else:
+                    dp[i][j]=dp[i-1][j]
+         
+return dp[n][m]
