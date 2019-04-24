@@ -1,0 +1,54 @@
+"""
+Definition for a undirected graph node
+class UndirectedGraphNode:
+    def __init__(self, x):
+        self.label = x
+        self.neighbors = []
+"""
+
+
+class Solution:
+    """
+    @param: node: A undirected graph node
+    @return: A undirected graph node
+    """
+    def cloneGraph(self, node):
+        # write your code here
+        
+        #keep the root
+        root =node
+        
+        if root is None:
+            return root
+        #step1:traverse all the node
+        nodes=self.bfs(node)
+        
+        # copy nodes, store the old->new mapping information in a hash map
+        mapping={} 
+        for node in nodes:
+            mapping[node]=UndirectedGraphNode(node.label)
+        
+        # copy neighbors(edges)
+        for node in nodes:
+            new_node=mapping[node]
+            for neighbor in node.neighbors:
+                new_neighbor=mapping[neighbor]
+                new_node.neighbors.append(new_neighbor)
+                
+        return mapping[root]
+        
+    def bfs(self,node):
+        queue=collections.deque([node])
+        visited=set()
+        visited.add(node)
+        
+        while queue:
+            node=queue.popleft()
+            for new in node.neighbors:
+                if new in visited:
+                    continue
+                queue.append(new)
+                visited.add(new)
+        
+        return visited
+                
